@@ -24,7 +24,7 @@ const SPANS = [
 
 const SHIFTS = SPANS.slice(0, SPANS.length-1).map(span => 1 + Math.floor(Math.log(span - 1) * Math.LOG2E));
 
-const NO_OP = () => {};
+const NO_OP = () => false;
 
 /**
  * A timer wheel for efficiently managing a large amount of time based actions.

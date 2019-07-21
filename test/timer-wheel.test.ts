@@ -1,7 +1,7 @@
 import { TimerWheel } from '../src/timer-wheel';
 import { Action } from '../src/action';
 
-const NO_OP = () => {};
+const NO_OP = () => false;
 
 function counter(): { count: number, action: Action } {
 	let count = 0;
