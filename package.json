@@ -1,6 +1,6 @@
 {
   "name": "timer-wheel",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Timer wheel for implementing things such as expirations",
   "license": "MIT",
   "repository": "aholstenson/timer-wheel",
