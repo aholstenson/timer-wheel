@@ -23,6 +23,16 @@ describe('TimerWheel', function() {
 	});
 
 	describe('Expiration', function() {
+		it('Expire in 0 ms @ 1.07 seconds', function() {
+			const wheel = new TimerWheel();
+
+			const helper = counter();
+			wheel.schedule(helper.action, 0);
+
+			wheel.advance(1070);
+			expect(helper.count).toEqual(1);
+		});
+
 		it('Expire in 200 ms @ 500 ms', function() {
 			const wheel = new TimerWheel();
 
