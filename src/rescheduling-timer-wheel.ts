@@ -43,10 +43,10 @@ export class ReschedulingTimerWheel<T> extends TimerWheel<T> {
 		return false;
 	}
 
-	protected removeNode(node: TimerNode<T>) {
+	protected expireNode(node: TimerNode<T>) {
 		this.items.delete(node.data);
 
-		super.removeNode(node);
+		super.expireNode(node);
 	}
 
 	protected scheduleNode(node: TimerNode<T>) {

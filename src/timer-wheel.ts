@@ -154,17 +154,15 @@ export class TimerWheel<T> {
 
 				while(node !== head) {
 					const next = node.next;
-					this.removeNode(node);
 
 					if(node.time <= time) {
 						// This node has expired, add it to the queue
+						this.expireNode(node);
 						expired.push(node.data);
 					} else {
 						// Find a new bucket to put this node in
 						const b = this.findBucket(node);
-						if(b) {
-							node.appendToTail(b);
-						}
+						node.appendToTail(b);
 					}
 					node = next;
 				}
@@ -190,12 +188,12 @@ export class TimerWheel<T> {
 		const self = this;
 		return {
 			remove() {
-				self.removeNode(node);
+				self.expireNode(node);
 			}
 		};
 	}
 
-	protected removeNode(node: TimerNode<T>): void {
+	protected expireNode(node: TimerNode<T>): void {
 		node.remove();
 	}
 }
