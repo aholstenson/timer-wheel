@@ -45,6 +45,9 @@ const NO_OP = () => false;
  * design allows for implementations of such things as expiring cached items
  * just before a get instead of continuously evaluating.
  *
+ * This wheel will schedule items to be expired several times. If you need to
+ * reschedule unique items, use `ReschedulingTimerWheel`.
+ *
  * Stores items in layers that are circular buffers that represent a time span.
  * This allows for efficiently figuring out what actions need to invoked
  * whenever the wheel is advanced.
@@ -151,7 +154,7 @@ export class TimerWheel<T> {
 
 				while(node !== head) {
 					const next = node.next;
-					node.remove();
+					this.removeNode(node);
 
 					if(node.time <= time) {
 						// This node has expired, add it to the queue
@@ -178,13 +181,21 @@ export class TimerWheel<T> {
 		const node = new TimerNode(data);
 		node.time = this.localTime + delayInMs;
 
-		const parent = this.findBucket(node);
+		return this.scheduleNode(node);
+	}
 
+	protected scheduleNode(node: TimerNode<T>): TimerHandle {
+		const parent = this.findBucket(node);
 		node.appendToTail(parent);
+		const self = this;
 		return {
 			remove() {
-				node.remove();
+				self.removeNode(node);
 			}
 		};
+	}
+
+	protected removeNode(node: TimerNode<T>): void {
+		node.remove();
 	}
 }
