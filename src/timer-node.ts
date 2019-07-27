@@ -1,15 +1,15 @@
 import { Action } from './action';
 
-export class TimerNode {
-	public action: Action;
+export class TimerNode<T> {
+	public readonly data: T;
 
 	public next: this;
 	public previous: this;
 
 	public time: number;
 
-	constructor(action: Action) {
-		this.action = action;
+	constructor(data: T) {
+		this.data = data;
 
 		this.previous = this;
 		this.next = this;

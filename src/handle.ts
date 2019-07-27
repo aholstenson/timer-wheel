@@ -1,9 +1,9 @@
 /**
- * Handle representing a scheduled action.
+ * Handle representing something scheduled in a wheel.
  */
-export interface ActionHandle {
+export interface TimerHandle {
 	/**
-	 * Remove this scheduled action, meaning it will no longer be run.
+	 * Remove the scheduled thing, meaning it will no longer be run.
 	 */
 	remove(): void;
 }

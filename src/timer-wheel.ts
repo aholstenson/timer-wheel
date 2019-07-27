@@ -1,6 +1,5 @@
 import { TimerNode } from './timer-node';
-import { Action } from './action';
-import { ActionHandle } from './handle';
+import { TimerHandle } from './handle';
 
 function toPowerOfN(n: number) {
 	return Math.pow(2, Math.ceil(Math.log(n) / Math.LN2));
@@ -27,22 +26,22 @@ const SHIFTS = SPANS.slice(0, SPANS.length-1).map(span => 1 + Math.floor(Math.lo
 const NO_OP = () => false;
 
 /**
- * A timer wheel for efficiently managing a large amount of time based actions.
+ * A timer wheel for efficiently managing a large amount of time based items.
  *
- * Actions can be scheduled using a certain delay in milliseconds:
+ * Items can be scheduled to be expired using a certain delay in milliseconds:
  *
- * ```javascript
- * const wheel = new TimerWheel();
- * wheel.schedule(functionToRun, 200);
+ * ```typescript
+ * const wheel = new TimerWheel<any>();
+ * wheel.schedule('testData', 200);
  * ```
  *
- * The wheel must then be advanced to invoke actions:
+ * The wheel must then be advanced to expire things:
  *
  * ```javascript
- * wheel.advance();
+ * const expired = wheel.advance();
  * ```
  *
- * This allows users of this class to control when actions are evaluated. This
+ * This allows users of this class to control when objects are expired. This
  * design allows for implementations of such things as expiring cached items
  * just before a get instead of continuously evaluating.
  *
@@ -59,10 +58,10 @@ const NO_OP = () => false;
  * Based on the implementation in the caching library Transitory, which in turn
  * is based on an idea by Ben Manes implemented in Caffeine.
  */
-export class TimerWheel {
+export class TimerWheel<T> {
 	private time: number;
 	private readonly base: number;
-	private readonly layers: TimerNode[][];
+	private readonly layers: TimerNode<T>[][];
 
 	constructor() {
 		this.base = Date.now();
@@ -84,7 +83,7 @@ export class TimerWheel {
 		return Date.now() - this.base;
 	}
 
-	private findBucket(node: TimerNode): TimerNode {
+	private findBucket(node: TimerNode<T>): TimerNode<T> {
 		const layers = this.layers;
 
 		const d = node.time - this.time;
@@ -101,21 +100,21 @@ export class TimerWheel {
 	}
 
 	/**
-	 * Advance the wheel, triggering any actions whose delay has passed.
+	 * Advance the wheel, returning all expired items.
 	 *
 	 * @param localTime
 	 *   optional timestamp used for things such as testing. Represents the
 	 *   number of milliseconds passed since this wheel was created.
 	 */
-	public advance(localTime?: number) {
+	public advance(localTime?: number): T[] {
 		const previous = this.time;
 		const time = localTime || this.localTime;
 		this.time = time;
 
 		const layers = this.layers;
 
-		// Holder for expired keys
-		let expired: Action[] | null = null;
+		// Holder for expired data
+		const expired: T[] = [];
 
 		/*
 		 * Go through all of the layers on the wheel, evict things and move
@@ -156,8 +155,7 @@ export class TimerWheel {
 
 					if(node.time <= time) {
 						// This node has expired, add it to the queue
-						if(! expired) expired = [];
-						expired.push(node.action);
+						expired.push(node.data);
 					} else {
 						// Find a new bucket to put this node in
 						const b = this.findBucket(node);
@@ -170,19 +168,14 @@ export class TimerWheel {
 			}
 		}
 
-		if(expired) {
-			// Run the expired actions
-			for(const action of expired) {
-				action();
-			}
-		}
+		return expired;
 	}
 
 	/**
-	 * Schedule running the given action after the specified delay.
+	 * Schedule the data to be expired after the given delay.
 	 */
-	public schedule(action: Action, delayInMs: number): ActionHandle {
-		const node = new TimerNode(action);
+	public schedule(data: T, delayInMs: number): TimerHandle {
+		const node = new TimerNode(data);
 		node.time = this.localTime + delayInMs;
 
 		const parent = this.findBucket(node);
