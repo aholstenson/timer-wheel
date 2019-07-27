@@ -25,6 +25,24 @@ export class ReschedulingTimerWheel<T> extends TimerWheel<T> {
 		this.items = new Map();
 	}
 
+	/**
+	 * Unschedule an item that has been previously scheduled.
+	 *
+	 * @param data
+	 */
+	public unschedule(data: T): boolean {
+		const current = this.items.get(data);
+		if(current) {
+			current.remove();
+
+			this.items.delete(data);
+
+			return true;
+		}
+
+		return false;
+	}
+
 	protected removeNode(node: TimerNode<T>) {
 		this.items.delete(node.data);
 

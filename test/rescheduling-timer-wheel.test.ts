@@ -20,12 +20,23 @@ describe('ReschedulingTimerWheel', function() {
 			const wheel = new ReschedulingTimerWheel<string>();
 			wheel.schedule('test', 1000);
 
+			wheel.unschedule('test');
+
+			const expired = wheel.advance(10000);
+			expect(expired).toEqual([]);
+		});
+
+		it('Can remove rescheduled', function() {
+			const wheel = new ReschedulingTimerWheel<string>();
+			wheel.schedule('test', 1000);
+
 			const handle = wheel.schedule('test', 5000);
 			handle.remove();
 
 			const expired = wheel.advance(10000);
 			expect(expired).toEqual([]);
 		});
+
 
 		it('Removing replaced items does not remove rescheduled', function() {
 			const wheel = new ReschedulingTimerWheel<string>();
