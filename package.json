@@ -1,6 +1,6 @@
 {
   "name": "timer-wheel",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Timer wheel for managing expiration of a large amount of items",
   "license": "MIT",
   "repository": "aholstenson/timer-wheel",
