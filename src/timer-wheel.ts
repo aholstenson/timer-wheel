@@ -162,7 +162,7 @@ export class TimerWheel<T> {
 					} else {
 						// Find a new bucket to put this node in
 						const b = this.findBucket(node);
-						node.appendToTail(b);
+						node.moveToTail(b);
 					}
 					node = next;
 				}
