@@ -1,7 +1,7 @@
 # Timer Wheel
 
 [![npm version](https://badge.fury.io/js/timer-wheel.svg)](https://badge.fury.io/js/timer-wheel)
-[![Build Status](https://travis-ci.org/aholstenson/timer-wheel.svg?branch=master)](https://travis-ci.org/aholstenson/timer-wheel)
+[![Build Status](https://github.com/aholstenson/timer-wheel/actions/workflows/ci.yml/badge.svg)](https://github.com/aholstenson/timer-wheel/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/aholstenson/timer-wheel/badge.svg)](https://coveralls.io/github/aholstenson/timer-wheel)
 [![Dependencies](https://david-dm.org/aholstenson/timer-wheel.svg)](https://david-dm.org/aholstenson/timer-wheel)
 
