@@ -1,4 +1,4 @@
-import { ReschedulingTimerWheel } from '../src/rescheduling-timer-wheel';
+import { ReschedulingTimerWheel } from '../src/ReschedulingTimerWheel';
 
 describe('ReschedulingTimerWheel', function() {
 	describe('Rescheduling', function() {

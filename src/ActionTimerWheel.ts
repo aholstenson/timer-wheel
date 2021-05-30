@@ -1,6 +1,6 @@
-import { Action } from './action';
-import { TimerWheel } from './timer-wheel';
-import { TimerHandle } from './handle';
+import { Action } from './Action';
+import { TimerWheel } from './TimerWheel';
+import { TimerHandle } from './TimerHandle';
 
 /**
  * Variant of TimerWheel that runs actions.

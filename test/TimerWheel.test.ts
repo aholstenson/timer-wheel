@@ -1,4 +1,4 @@
-import { TimerWheel } from '../src/timer-wheel';
+import { TimerWheel } from '../src/TimerWheel';
 
 describe('TimerWheel', function() {
 	it('Schedule', function() {

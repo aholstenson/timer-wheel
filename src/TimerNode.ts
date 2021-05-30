@@ -1,4 +1,4 @@
-import { Action } from './action';
+import { Action } from './Action';
 
 export class TimerNode<T> {
 	public readonly data: T;

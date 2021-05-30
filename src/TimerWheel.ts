@@ -1,5 +1,5 @@
-import { TimerNode } from './timer-node';
-import { TimerHandle } from './handle';
+import { TimerNode } from './TimerNode';
+import { TimerHandle } from './TimerHandle';
 
 function toPowerOfN(n: number) {
 	return Math.pow(2, Math.ceil(Math.log(n) / Math.LN2));

@@ -1,5 +1,5 @@
-import { TimerWheel } from './timer-wheel';
-import { TimerNode } from './timer-node';
+import { TimerWheel } from './TimerWheel';
+import { TimerNode } from './TimerNode';
 
 /**
  * TimerWheel for easier rescheduling of expiration of items. This wheel only
