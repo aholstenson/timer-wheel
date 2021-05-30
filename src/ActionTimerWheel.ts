@@ -1,36 +1,31 @@
 import { Action } from './Action';
 import { TimerWheel } from './TimerWheel';
-import { TimerHandle } from './TimerHandle';
 
 /**
- * Variant of TimerWheel that runs actions.
+ * Variant of `TimerWheel` that runs actions.
+ *
+ * ```typescript
+ * const wheel = new ActionTimerWheel();
+ *
+ * wheel.schedule(() => {
+ *   // Code to run when expiring
+ * }, 8000);
+ *
+ * // Advance the wheel to run expired actions
+ * wheel.advance();
+ * ```
  */
-export class ActionTimerWheel {
-	private readonly timerWheel: TimerWheel<Action>;
-
-	constructor() {
-		this.timerWheel = new TimerWheel();
-	}
-
+export class ActionTimerWheel extends TimerWheel<Action> {
 	/**
 	 * Advance the wheel, running all actions whose delay has passed.
 	 */
-	public advance(): void {
-		const expired = this.timerWheel.advance();
+	public advance(localTime?: number): Action[] {
+		const expired = super.advance(localTime);
+
 		for(const action of expired) {
 			action();
 		}
-	}
 
-	/**
-	 * Schedule an action that should be run after a certain delay.
-	 *
-	 * @param action
-	 *   action to run
-	 * @param delayInMs
-	 *   minimum delay before the action is run
-	 */
-	public schedule(action: Action, delayInMs: number): TimerHandle {
-		return this.timerWheel.schedule(action, delayInMs);
+		return expired;
 	}
 }
