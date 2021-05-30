@@ -2,11 +2,13 @@ import { TimerWheel } from './TimerWheel';
 import { TimerNode } from './TimerNode';
 
 /**
- * TimerWheel for easier rescheduling of expiration of items. This wheel only
+ * `TimerWheel` for easier rescheduling of expiration of items. This wheel
  * will not schedule the same item for expiration more than once, instead it
  * will reschedule the expiration when a duplicate item is added.
  *
- * ```javascript
+ * ```typescript
+ * const wheel = new ReschedulingTimerWheel<any>();
+ *
  * const dataToSchedule = 'test';
  *
  * // Schedule dataToSchedule to expire in 1000 ms
